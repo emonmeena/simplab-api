@@ -33,8 +33,8 @@ class Experiment(models.Model):
 class Experiment_Assignment(models.Model):
     exp = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100, blank=True)
-    due_date = models.DateField(auto_now_add=True,blank=True)
+    title = models.CharField(max_length=100)
+    due_date = models.DateField()
 
     def __str__(self):
         return self.title
