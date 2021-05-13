@@ -72,7 +72,7 @@ def post_team(request):
         serialized_team = Team_Serializer(data=request.data)
         if serialized_team.is_valid():
             serialized_team.save()
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(serialized_team.data['id'])
         return Response(serialized_team.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
@@ -82,4 +82,12 @@ def join_team(request):
         if serialized_team.is_valid():
             serialized_team.save()
             return Response(status=status.HTTP_201_CREATED)
-        return Response(serialized_team.errors, status=status.HTTP_400_BAD_REQUEST)        
+        return Response(serialized_team.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+def get_team_name(request, team_id):
+    if request.method == 'GET':
+        team = Team.objects.get(pk=team_id)
+        serializedData =  Team_Name_Serializer(team)
+        return Response(serializedData.data)    

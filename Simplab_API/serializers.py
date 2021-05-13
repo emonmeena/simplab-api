@@ -35,3 +35,8 @@ class User_Detail_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User_Detail
         fields='__all__'        
+
+class Team_Name_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields = ['team_name']       

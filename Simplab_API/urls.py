@@ -7,6 +7,7 @@ urlpatterns = [
     path('users/', views.post_user, name='save a user in db'),
     path('create-team/', views.post_team, name='create a new team'),
     path('join-team/', views.join_team, name='join a team'),
+    path('team/<team_id>', views.get_team_name, name='get team detail'),
     path('simulations/', views.get_simulations, name='get all simulations for library'),
     path('simulation/<exp_id>', views.get_exp_detail, name='get experiment detail of an exp.'),
     path('assignments/', views.post_assignment, name='post an assignment'),
