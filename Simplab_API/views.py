@@ -19,6 +19,9 @@ def post_user(request):
         serialized_user = User_Serializer(data=request.data)
         if serialized_user.is_valid():
             serialized_user.save()
+            serialized_user_detail = User_Detail_Serializer(data={"user": serialized_user.data['id'], "username": serialized_user.data['username']})
+            if serialized_user_detail.is_valid():
+                serialized_user_detail.save()
             return Response(serialized_user.data['id'])
         return Response(serialized_user.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -30,6 +33,6 @@ def auth_user(request, username, password):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        user_detail = User_Detail.objects.get(user=username)
+        user_detail = User_Detail.objects.get(user=user.id)
         serializedData =  User_Detail_Serializer(user_detail)
         return Response(serializedData.data)  
