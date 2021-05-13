@@ -1,0 +1,1 @@
+web: gunicorn Simplab.wsgi --log-file -
