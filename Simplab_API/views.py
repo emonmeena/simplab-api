@@ -90,4 +90,11 @@ def get_team_name(request, team_id):
     if request.method == 'GET':
         team = Team.objects.get(pk=team_id)
         serializedData =  Team_Name_Serializer(team)
-        return Response(serializedData.data)    
+        return Response(serializedData.data)
+
+@api_view(['GET'])
+def get_team_detail(request, team_id):
+    if request.method == 'GET':
+        team = Team.objects.get(pk=team_id)
+        serializedData =  Team_Serializer(team)
+        return Response(serializedData.data)        
