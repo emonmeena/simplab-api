@@ -41,7 +41,7 @@ def auth_user(request, username, password):
 def get_simulations(request):
     if request.method == 'GET':
         simulations = Experiment.objects.all()
-        serializedData =  User_Detail_Serializer(simulations,many=True)
+        serializedData =  Experimennt_Serializer(simulations,many=True)
         return Response(serializedData.data)
 
 
@@ -53,5 +53,5 @@ def get_exp_detail(request, exp_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializedData =  User_Detail_Serializer(exp)
+        serializedData =  Experimennt_Serializer(exp)
         return Response(serializedData.data)
