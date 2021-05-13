@@ -11,7 +11,7 @@ def get_user(request, userid):
     if request.method == 'GET':
         users = User_Detail.objects.get(user=userid)
         serializedData =  User_Detail_Serializer(users)
-        return Response(serializedData.data)        
+        return Response(serializedData.data)
 
 @api_view(['POST'])
 def post_user(request):
@@ -35,4 +35,11 @@ def auth_user(request, username, password):
     if request.method == 'GET':
         user_detail = User_Detail.objects.get(user=user.id)
         serializedData =  User_Detail_Serializer(user_detail)
-        return Response(serializedData.data)  
+        return Response(serializedData.data)
+
+@api_view(['GET'])
+def get_simulations(request):
+    if request.method == 'GET':
+        simulations = Experiment.objects.all()
+        serializedData =  User_Detail_Serializer(simulations,many=True)
+        return Response(serializedData.data)        
