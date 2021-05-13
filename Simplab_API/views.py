@@ -7,11 +7,11 @@ from rest_framework.decorators import api_view
 
 
 @api_view(['GET'])
-def get_user(request):
+def get_user(request, userid):
     if request.method == 'GET':
-        users = User.objects.all()
-        serializedData =  User_Serializer(users, many=True)
-        return Response(serializedData.data)
+        users = User_Detail.objects.get(user=userid)
+        serializedData =  User_Detail_Serializer(users)
+        return Response(serializedData.data)        
 
 @api_view(['POST'])
 def post_user(request):
