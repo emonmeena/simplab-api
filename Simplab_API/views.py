@@ -19,7 +19,7 @@ def post_user(request):
         serialized_user = User_Serializer(data=request.data)
         if serialized_user.is_valid():
             serialized_user.save()
-            serialized_user_detail = User_Detail_Serializer(data={"user": serialized_user.data['id'], "username": serialized_user.data['username']})
+            serialized_user_detail = User_Detail_Serializer(data={"user": serialized_user.data['id'], "username": serialized_user.data['username'], "email": serialized_user.data["email"]})
             if serialized_user_detail.is_valid():
                 serialized_user_detail.save()
             return Response(serialized_user.data['id'])
@@ -63,4 +63,4 @@ def post_assignment(request):
         if serialized_assignment.is_valid():
             serialized_assignment.save()
             return Response(status=status.status.HTTP_201_CREATED)
-        return Response(serialized_assignment.errors, status=status.HTTP_400_BAD_REQUEST)        
+        return Response(serialized_assignment.errors, status=status.HTTP_400_BAD_REQUEST)

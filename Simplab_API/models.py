@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class User(models.Model):
@@ -53,7 +54,7 @@ class Submission(models.Model):
 class Chat(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField(auto_now_add=True, blank=True)
+    date = models.DateField()
     message = models.TextField(blank=True)
     is_file = models.BooleanField(default=False, blank=True)
     chat_file = models.FileField(upload_to='chat_files' ,blank=True)
@@ -62,7 +63,7 @@ class Chat(models.Model):
 class User_Detail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     username = models.CharField(max_length=25, blank=True)
-    email  =models.EmailField(blank=True)
+    email  = models.EmailField(default=timezone.now,blank=True)
     profile_image = models.ImageField(upload_to='profile_images' ,blank=True)
     organization = models.CharField(max_length=15, default="not selected", blank=True)
     contact = models.CharField(max_length=15 ,default='+911234567890', blank=True)
