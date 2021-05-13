@@ -55,3 +55,12 @@ def get_exp_detail(request, exp_id):
     if request.method == 'GET':
         serializedData =  Experimennt_Serializer(exp)
         return Response(serializedData.data)
+
+@api_view(['POST'])
+def post_assignment(request):
+    if request.method == 'POST':
+        serialized_assignment = Assignment_Serializer(data=request.data)
+        if serialized_assignment.is_valid():
+            serialized_assignment.save()
+            return Response(status=status.status.HTTP_201_CREATED)
+        return Response(serialized_assignment.errors, status=status.HTTP_400_BAD_REQUEST)        
