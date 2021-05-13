@@ -64,3 +64,13 @@ def post_assignment(request):
             serialized_assignment.save()
             return Response(status=status.status.HTTP_201_CREATED)
         return Response(serialized_assignment.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def post_team(request):
+    if request.method == 'POST':
+        serialized_team = Team_Serializer(data=request.data)
+        if serialized_team.is_valid():
+            serialized_team.save()
+            return Response(status=status.status.HTTP_201_CREATED)
+        return Response(serialized_team.errors, status=status.HTTP_400_BAD_REQUEST)

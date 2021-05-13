@@ -14,7 +14,7 @@ class User(models.Model):
 class Team(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=100)
-    students = models.ManyToManyField(User, related_name="all_students_enrolled", blank=True)
+    students = models.ManyToManyField(User, related_name="all_students_enrolled", default=[admin], blank=True)
 
     def __str__(self):
         return self.team_name
@@ -54,7 +54,7 @@ class Submission(models.Model):
 class Chat(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(default=timezone.now, blank=True)
     message = models.TextField(blank=True)
     is_file = models.BooleanField(default=False, blank=True)
     chat_file = models.FileField(upload_to='chat_files' ,blank=True)
