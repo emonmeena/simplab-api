@@ -61,7 +61,7 @@ class Chat(models.Model):
 
 class User_Detail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    username = models.CharField(max_length=25)
+    username = models.CharField(max_length=25, blank=True)
     email  =models.EmailField(blank=True)
     profile_image = models.ImageField(upload_to='profile_images' ,blank=True)
     organization = models.CharField(max_length=15, default="not selected", blank=True)
