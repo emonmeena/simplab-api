@@ -21,3 +21,15 @@ def post_user(request):
             serialized_user.save()
             return Response(serialized_user.data['id'])
         return Response(serialized_user.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def auth_user(request, username, password):
+    try:
+        user = User.objects.get(username=username , password=password)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        user_detail = User_Detail.objects.get(user=username)
+        serializedData =  User_Detail_Serializer(user_detail)
+        return Response(serializedData.data)  
