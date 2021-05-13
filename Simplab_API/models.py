@@ -71,7 +71,7 @@ class User_Detail(models.Model):
     # alerts
 
     def __str__(self):
-        self.username
+        self.contact
         self.organization
-        return self.contact  
+        return self.username  
     
