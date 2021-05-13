@@ -20,7 +20,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/simplab-api/', include('Simplab_API.urls'))
+    path('api/', include('Simplab_API.urls'))
 ]
 
 if settings.DEBUG:
