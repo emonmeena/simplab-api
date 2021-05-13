@@ -42,4 +42,16 @@ def get_simulations(request):
     if request.method == 'GET':
         simulations = Experiment.objects.all()
         serializedData =  User_Detail_Serializer(simulations,many=True)
-        return Response(serializedData.data)        
+        return Response(serializedData.data)
+
+
+@api_view(['GET'])
+def get_exp_detail(request, exp_id):
+    try:
+        exp = Experiment.objects.get(pk=exp_id)
+    except Experiment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializedData =  User_Detail_Serializer(exp)
+        return Response(serializedData.data)
