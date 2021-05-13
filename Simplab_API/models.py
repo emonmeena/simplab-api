@@ -14,7 +14,7 @@ class User(models.Model):
 class Team(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=100)
-    students = models.ManyToManyField(User, related_name="all_students_enrolled", default=[admin], blank=True)
+    students = models.ManyToManyField(User, related_name="all_students_enrolled", blank=True)
 
     def __str__(self):
         return self.team_name
