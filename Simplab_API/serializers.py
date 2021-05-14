@@ -40,4 +40,8 @@ class User_Detail_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User_Detail
         fields='__all__'        
-      
+
+class User_Detail_Serializer_Basic(serializers.ModelSerializer):
+    class Meta:
+        model = User_Detail
+        fields=['username', 'profile_image', 'email']      

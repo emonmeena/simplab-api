@@ -109,6 +109,30 @@ def get_user_teams(request, user_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
+        teams = user.all_member_teams.all()
+        serializedData =  Team_Serializer_Basic(teams, many=True)
+        return Response(serializedData.data)
+
+@api_view(['GET'])
+def get_user_admin_teams(request, user_id):
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
         teams = user.team_set.all()
         serializedData =  Team_Serializer_Basic(teams, many=True)
         return Response(serializedData.data)
+
+@api_view(['GET'])
+def get_student_list(request, team_id):
+    try:
+        team = Team.objects.get(pk=team_id)
+    except Team.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        students = team.team_members.all()
+        serializedData =  User_Detail_Serializer_Basic(students, many=True)
+        return Response(serializedData.data)        

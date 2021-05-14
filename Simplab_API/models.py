@@ -14,7 +14,7 @@ class User(models.Model):
 class Team(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=100)
-    students = models.ManyToManyField(User, related_name="all_students_enrolled", blank=True)
+    students = models.ManyToManyField(User, related_name="all_member_teams", default=["7"],blank=True)
 
     def __str__(self):
         return self.team_name
@@ -63,11 +63,11 @@ class Chat(models.Model):
 class User_Detail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     username = models.CharField(max_length=25, blank=True)
-    email  = models.EmailField(default=timezone.now,blank=True)
+    email  = models.EmailField(blank=True)
     profile_image = models.ImageField(upload_to='profile_images' ,blank=True)
     organization = models.CharField(max_length=15, default="not selected", blank=True)
     contact = models.CharField(max_length=15 ,default='+911234567890', blank=True)
-    teams = models.ManyToManyField(Team, related_name="all_teams_enrolled", blank=True)
+    teams = models.ManyToManyField(Team, related_name="team_members", blank=True)
     # alerts
 
     def __str__(self):
