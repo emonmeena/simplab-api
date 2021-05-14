@@ -144,3 +144,15 @@ def get_student_list(request, team_id):
         students = team.team_members.all()
         serializedData =  User_Detail_Serializer_Basic(students, many=True)
         return Response(serializedData.data)        
+
+@api_view(['GET'])
+def get_all_team_assignments(request, team_id):
+    try:
+        team = Team.objects.get(pk=team_id)
+    except Team.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        assignments = team.all_team_experiments.all()
+        serializedData =  Assignment_Serializer(assignments, many=True)
+        return Response(serializedData.data) 

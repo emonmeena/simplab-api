@@ -32,8 +32,8 @@ class Experiment(models.Model):
 
 
 class Experiment_Assignment(models.Model):
-    exp = models.ForeignKey(Experiment, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    exp = models.ForeignKey(Experiment,on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, related_name="all_team_experiments",on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     due_date = models.DateField()
 
