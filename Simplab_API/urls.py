@@ -5,6 +5,7 @@ urlpatterns = [
     path('users/<userid>', views.get_user, name='get user detail'),
     path('auth/<username>/<password>', views.auth_user, name='authenticate user'),
     path('users/', views.post_user, name='save a user in db'),
+    path('edit/user-detail/<user_id>', views.put_user_detail, name='putn request to modify userdetail'),
     path('create-team/', views.post_team, name='create a new team'),
     path('teams/<user_id>', views.get_user_teams, name='show all teams with user_id'),
     path('admin-teams/<user_id>', views.get_user_admin_teams, name='show all teams with user_id'),

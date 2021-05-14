@@ -155,4 +155,18 @@ def get_all_team_assignments(request, team_id):
     if request.method == 'GET':
         assignments = team.all_team_experiments.all()
         serializedData =  Assignment_Serializer(assignments, many=True)
-        return Response(serializedData.data) 
+        return Response(serializedData.data)
+
+
+@api_view(['PUT'])
+def put_user_detail(request, user_id):
+    try:
+        user_detail = User_Detail.objects.get(user=user_id)
+    except User_Detail.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)     
+
+    if request.method == 'PUT':
+        serialized_user_detail = User_Detail_Serializer(user_detail)
+        if serialized_user_detail.is_valid():
+            serialized_user_detail.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)    
