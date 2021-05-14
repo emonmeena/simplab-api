@@ -85,14 +85,22 @@ def post_team(request):
             return Response(serialized_team.data['id'])
         return Response(serialized_team.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['POST'])
-def join_team(request):
-    if request.method == 'POST':
-        serialized_team = Team_Serializer(data=request.data)
-        if serialized_team.is_valid():
-            serialized_team.save()
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serialized_team.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['PUT'])
+def join_team(request, team_id, user_id):
+    try:
+        team = Team.objects.get(pk=team_id)
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)    
+            
+    except Team.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)    
+
+    if request.method == 'PUT':
+        team.students.add(user)
+        team.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 def get_team_detail(request, team_id):
