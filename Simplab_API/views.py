@@ -13,8 +13,13 @@ def get_user(request, userid):
         serializedData =  User_Detail_Serializer(users)
         return Response(serializedData.data)
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def post_user(request):
+    if request.method == 'GET':
+        users = User_Detail.objects.all()
+        serializedData =  User_Detail_Serializer(users, many=True)
+        return Response(serializedData.data)
+        
     if request.method == 'POST':
         serialized_user = User_Serializer(data=request.data)
         if serialized_user.is_valid():
@@ -66,8 +71,13 @@ def post_assignment(request):
         return Response(serialized_assignment.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def post_team(request):
+    if request.method == 'GET':
+        teams = Team.objects.all()
+        serializedData =  Team_Serializer(teams, many=True)
+        return Response(serializedData.data)
+
     if request.method == 'POST':
         serialized_team = Team_Serializer(data=request.data)
         if serialized_team.is_valid():
@@ -84,17 +94,21 @@ def join_team(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serialized_team.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-@api_view(['GET'])
-def get_team_name(request, team_id):
-    if request.method == 'GET':
-        team = Team.objects.get(pk=team_id)
-        serializedData =  Team_Name_Serializer(team)
-        return Response(serializedData.data)
-
 @api_view(['GET'])
 def get_team_detail(request, team_id):
     if request.method == 'GET':
         team = Team.objects.get(pk=team_id)
         serializedData =  Team_Serializer(team)
-        return Response(serializedData.data)        
+        return Response(serializedData.data)
+
+@api_view(['GET'])
+def get_user_teams(request, user_id):
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        teams = user.team_set.all()
+        serializedData =  Team_Serializer_Basic(teams, many=True)
+        return Response(serializedData.data)

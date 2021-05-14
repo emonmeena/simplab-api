@@ -4,12 +4,17 @@ from .models import *
 class User_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields='__all__'
+        fields=['id', 'username', 'email', 'password']
 
 class Team_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields='__all__'
+
+class Team_Serializer_Basic(serializers.ModelSerializer):
+    class Meta:
+        model = Team
+        fields=['id', 'team_name', 'admin']
 
 class Experimennt_Serializer(serializers.ModelSerializer):
     class Meta:
@@ -35,8 +40,4 @@ class User_Detail_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User_Detail
         fields='__all__'        
-
-class Team_Name_Serializer(serializers.ModelSerializer):
-    class Meta:
-        model = Team
-        fields = ['team_name']       
+      
