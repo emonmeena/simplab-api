@@ -171,7 +171,8 @@ def put_user_detail(request, user_id):
         serialized_user_detail = User_Detail_Serializer(user_detail)
         if serialized_user_detail.is_valid():
             serialized_user_detail.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def update_password(request, user_id):
