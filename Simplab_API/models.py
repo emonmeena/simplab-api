@@ -67,7 +67,6 @@ class User_Detail(models.Model):
     profile_image = models.ImageField(upload_to='profile_images' ,blank=True)
     organization = models.CharField(max_length=15, default="not selected", blank=True)
     contact = models.CharField(max_length=15 ,default='+911234567890', blank=True)
-    teams = models.ManyToManyField(Team, related_name="team_members", blank=True)
     # alerts
 
     def __str__(self):
