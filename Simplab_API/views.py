@@ -159,14 +159,6 @@ def get_all_team_assignments(request, team_id):
         serializedData =  Assignment_Serializer(assignments, many=True)
         return Response(serializedData.data)
 
-@api_view(['GET'])
-def get_user_detail(request, user_id):
-    if request.method == 'GET':
-        user_detail = User.objects.get(user=user_id)
-        serializedData =  User_Detail(user_detail)
-        return Response(serializedData.data)
-
-
 @api_view(['PUT'])
 def put_user_detail(request, user_id):
     try:
