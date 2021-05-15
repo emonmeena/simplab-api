@@ -4,6 +4,7 @@ from .models import *
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
+import numpy as np
 
 
 @api_view(['GET'])
@@ -117,9 +118,10 @@ def get_user_teams(request, user_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        teams = user.all_member_teams.all()
-        serializedData =  Team_Serializer_Basic(teams, many=True)
-        return Response(serializedData.data)
+        member_teams = Team_Serializer_Basic(user.all_member_teams.all(), many=True).data
+        admin_teams = Team_Serializer_Basic(user.team_set.all(), many=True).data
+        all_teams = np.concatenate((np.array(admin_teams), np.array(member_teams)))
+        return Response(all_teams)
 
 @api_view(['GET'])
 def get_user_admin_teams(request, user_id):
