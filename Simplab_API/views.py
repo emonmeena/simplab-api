@@ -167,7 +167,7 @@ def put_user_detail(request, user_id):
         return Response(status=status.HTTP_404_NOT_FOUND)     
 
     if request.method == 'PUT':
-        serialized_user_detail = User_Detail_Serializer(user_detail)
+        serialized_user_detail = User_Detail_Serializer(data=request.data)
         if serialized_user_detail.is_valid():
             serialized_user_detail.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
