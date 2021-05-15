@@ -17,4 +17,5 @@ urlpatterns = [
     path('simulation/<exp_id>', views.get_exp_detail, name='get experiment detail of an exp.'),
     path('assignments/', views.post_assignment, name='post an assignment'),
     path('assignments/<team_id>', views.get_all_team_assignments, name='get all the assignments of a team'),
+    path('all-assignments/<user_id>', views.get_all_assignments, name='get all assignments of all teams'),
 ]

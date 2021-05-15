@@ -100,7 +100,7 @@ def join_team(request, team_id, user_id):
     if request.method == 'PUT':
         team.students.add(user)
         team.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(st)
 
 @api_view(['GET'])
 def get_team_detail(request, team_id):
@@ -182,4 +182,21 @@ def update_password(request, user_id):
         serialized_user = User_Serializer(data=request.data)
         if serialized_user.is_valid():
             serialized_user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)        
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def get_all_assignments(request, user_id):
+    try:
+        user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        teams = user.all_member_teams.all()
+        array = []
+        for x in teams:
+            s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
+            if s.data != []:
+                array.append(s.data)
+        print(array)    
+        return Response(array)
