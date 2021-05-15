@@ -3,10 +3,10 @@ from . import views
 
 urlpatterns = [
     path('users/<userid>', views.get_user, name='get user detail'),
+    path('auth/change-password/<user_id>/<password>', views.update_password, name='modify user password'),
     path('auth/<username>/<password>', views.auth_user, name='authenticate user'),
     path('users/', views.post_user, name='save a user in db'),
     path('edit/user-detail/<user_id>', views.put_user_detail, name='put request to modify userdetail'),
-    path('auth/change-password/<usr_id>', views.update_password, name='modify user password'),
     path('create-team/', views.post_team, name='create a new team'),
     path('teams/<user_id>', views.get_user_teams, name='show all teams with user_id'),
     path('admin-teams/<user_id>', views.get_user_admin_teams, name='show all teams with user_id'),

@@ -101,7 +101,21 @@ def join_team(request, team_id, user_id):
     if request.method == 'PUT':
         team.students.add(user)
         team.save()
-        return Response(st)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['PUT'])
+def update_password(request, user_id, password):
+    try:
+        user = User.objects.get(pk=user_id, password=password)
+    except User.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)     
+
+    if request.method == 'PUT':
+        serialized_user = User_Serializer(user ,data=request.data)
+        if serialized_user.is_valid():
+            serialized_user.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serialized_user.errors,status=status.HTTP_204_NO_CONTENT)        
 
 @api_view(['GET'])
 def get_team_detail(request, team_id):
@@ -173,18 +187,6 @@ def put_user_detail(request, user_id):
             return Response(serialized_user_detail.data)
         return Response(serialized_user_detail.errors,status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['PUT'])
-def update_password(request, user_id):
-    try:
-        user = User_Detail.objects.get(user=user_id)
-    except User_Detail.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)     
-
-    if request.method == 'PUT':
-        serialized_user = User_Serializer(data=request.data)
-        if serialized_user.is_valid():
-            serialized_user.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
 def get_all_assignments(request, user_id):
