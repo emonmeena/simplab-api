@@ -163,15 +163,15 @@ def get_all_team_assignments(request, team_id):
 def put_user_detail(request, user_id):
     try:
         user_detail = User_Detail.objects.get(user=user_id)
-    except User_Detail.DoesNotExist:
+    except User.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)     
 
     if request.method == 'PUT':
-        serialized_user_detail = User_Detail_Serializer(data=request.data)
+        serialized_user_detail = User_Detail_Serializer(user_detail, data=request.data)
         if serialized_user_detail.is_valid():
             serialized_user_detail.save()
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(serialized_user_detail.data)
+        return Response(serialized_user_detail.errors,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['PUT'])
 def update_password(request, user_id):
@@ -200,5 +200,4 @@ def get_all_assignments(request, user_id):
             s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
             for a in s.data:
                 all_assignments.append(a)
-        print(all_assignments)    
         return Response(all_assignments)
