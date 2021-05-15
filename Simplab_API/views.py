@@ -195,10 +195,10 @@ def get_all_assignments(request, user_id):
 
     if request.method == 'GET':
         teams = user.all_member_teams.all()
-        array = []
+        all_assignments = []
         for x in teams:
             s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
-            if s.data != []:
-                array.append(s.data)
-        print(array)    
-        return Response(array)
+            for a in s.data:
+                all_assignments.append(a)
+        print(all_assignments)    
+        return Response(all_assignments)
