@@ -224,3 +224,14 @@ def post_chat(request):
             serialized_chat.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serialized_chat.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def delete_team(request,teamid):
+    try:
+        team = Team.objects.get(pk=teamid)
+    except Team.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        team.delete()
+        return Response(status = status.HTTP_200_OK) 
