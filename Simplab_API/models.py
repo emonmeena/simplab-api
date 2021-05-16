@@ -35,8 +35,8 @@ class Experiment_Assignment(models.Model):
     exp = models.ForeignKey(Experiment,on_delete=models.CASCADE)
     team = models.ForeignKey(Team, related_name="all_team_experiments",on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    due_date = models.DateField(default=timezone.now, blank=True)
-    due_time = models.TimeField(default=timezone.now, blank=True)
+    due_date = models.DateField(default=timezone.now)
+    due_time = models.TimeField(default=timezone.now)
     is_complete = models.BooleanField(default=False)
 
     def __str__(self):
