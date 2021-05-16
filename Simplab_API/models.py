@@ -41,13 +41,15 @@ class Experiment_Assignment(models.Model):
         return self.title
 
 class Submission(models.Model):
+    assignment = models.ForeignKey(Experiment_Assignment, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(User, on_delete=models.CASCADE)
     student_name = models.CharField(max_length=25, blank=True)
-    student_enroll_num = models.CharField(max_length=50, blank=True)
     student_email = models.EmailField(blank=True)
+    exp_observations_image = models.ImageField(upload_to='assignment_submissions/images/observations')
+    exp_result = models.TextField()
     submission_file = models.FileField(upload_to='submission_files',blank=True)
 
     def __str__(self):
-        self.student_enroll_num
         return self.student_name
 
 
