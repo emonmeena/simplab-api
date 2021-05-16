@@ -14,7 +14,7 @@ class User(models.Model):
 class Team(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=100)
-    students = models.ManyToManyField(User, related_name="all_member_teams",blank=True)
+    students = models.ManyToManyField(User, related_name="all_member_teams", default=["7"],blank=True)
 
     def __str__(self):
         return self.team_name
@@ -36,15 +36,13 @@ class Experiment_Assignment(models.Model):
     team = models.ForeignKey(Team, related_name="all_team_experiments",on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     due_date = models.DateField()
-    due_time = models.TimeField()
-    is_complete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
 
 class Submission(models.Model):
-    student_id = models.ForeignKey(User, on_delete=models.CASCADE)
     student_name = models.CharField(max_length=25, blank=True)
+    student_enroll_num = models.CharField(max_length=50, blank=True)
     student_email = models.EmailField(blank=True)
     submission_file = models.FileField(upload_to='submission_files',blank=True)
 
@@ -57,7 +55,6 @@ class Chat(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, blank=True)
-    time = models.TimeField(default=timezone.now, blank=True)
     message = models.TextField(blank=True)
     is_file = models.BooleanField(default=False, blank=True)
     chat_file = models.FileField(upload_to='chat_files' ,blank=True)
@@ -75,5 +72,4 @@ class User_Detail(models.Model):
     def __str__(self):
         self.contact
         self.organization
-        return self.username  
-    
+        return self.username
