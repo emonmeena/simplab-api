@@ -21,4 +21,5 @@ urlpatterns = [
     path('chat/<teamid>', views.getchat , name =' get chat of a team'),
     path('delete-team/<teamid>', views.delete_team, name = 'delete team'),
     path('post-chat', views.post_chat, name = 'add new message in chat'),
+    path('leave-team/<teamid>/<userid>',views.leave_team, name = 'leave team'),
 ]
