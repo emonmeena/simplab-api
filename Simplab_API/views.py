@@ -157,9 +157,14 @@ def get_student_list(request, team_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        students = team.team_members.all()
-        serializedData =  User_Detail_Serializer_Basic(students, many=True)
-        return Response(serializedData.data)        
+        student_ids = team.students.all()
+        array = []
+        for x in student_ids:
+            student = User_Detail.objects.get(user=x.id)
+            serialized_student = User_Detail_Serializer_Basic(student)
+            array.append(serialized_student.data)
+
+        return Response(array)        
 
 @api_view(['GET'])
 def get_all_team_assignments(request, team_id):
@@ -203,3 +208,4 @@ def get_all_assignments(request, user_id):
             for a in s.data:
                 all_assignments.append(a)
         return Response(all_assignments)
+      
