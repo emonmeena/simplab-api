@@ -239,17 +239,23 @@ def delete_team(request,teamid):
 
     if request.method == 'DELETE':
         team.delete()
-        return Response(status = status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)    
+        return Response(status = status.HTTP_200_OK) 
+     return Response(status=status.HTTP_400_BAD_REQUEST)  
 
 @api_view(['DELETE'])
-def delete_submission(request,sid):
+def leave_team(request,teamid,userid):
     try:
-        s = AssignmentSubmission.objects.get(pk=sid)
-    except AssignmentSubmission.DoesNotExist:
+        team = Team.objects.get(pk=teamid)
+        try:
+            user = User.objects.get(pk=userid)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)  
+    except Team.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        s.delete()
-        return Response(status = status.HTTP_200_OK)
+        if user in team.students.all():
+            team.students.remove(user)
+            return Response(status = status.HTTP_200_OK) 
+        return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_400_BAD_REQUEST)    
