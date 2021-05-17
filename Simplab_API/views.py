@@ -239,4 +239,17 @@ def delete_team(request,teamid):
 
     if request.method == 'DELETE':
         team.delete()
-        return Response(status = status.HTTP_200_OK) 
+        return Response(status = status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)    
+
+@api_view(['DELETE'])
+def delete_submission(request,sid):
+    try:
+        s = AssignmentSubmission.objects.get(pk=sid)
+    except AssignmentSubmission.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        s.delete()
+        return Response(status = status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)    
