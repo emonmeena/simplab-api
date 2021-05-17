@@ -23,12 +23,12 @@ class Experimennt_Serializer(serializers.ModelSerializer):
 
 class Assignment_Serializer(serializers.ModelSerializer):
     class Meta:
-        model = Experiment_Assignment
+        model = Assignment
         fields='__all__'
 
-class Submission_Serializer(serializers.ModelSerializer):
+class Ass_Submission_Serializer(serializers.ModelSerializer):
     class Meta:
-        model = Submission
+        model = AssignmentSubmission
         fields='__all__'
 
 class Chat_Serializer(serializers.ModelSerializer):

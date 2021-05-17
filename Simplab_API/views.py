@@ -157,9 +157,14 @@ def get_student_list(request, team_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        students = team.team_members.all()
-        serializedData =  User_Detail_Serializer_Basic(students, many=True)
-        return Response(serializedData.data)        
+        student_ids = team.students.all()
+        array = []
+        for x in student_ids:
+            student = User_Detail.objects.get(user=x.id)
+            serialized_student = User_Detail_Serializer_Basic(student)
+            array.append(serialized_student.data)
+
+        return Response(array)        
 
 @api_view(['GET'])
 def get_all_team_assignments(request, team_id):
@@ -202,7 +207,7 @@ def get_all_assignments(request, user_id):
             s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
             for a in s.data:
                 all_assignments.append(a)
-        return Response(all_assignments)
+        return Response(all_assignments)     
 
 @api_view(['GET'])
 def getchat(request,teamid):
@@ -235,6 +240,7 @@ def delete_team(request,teamid):
     if request.method == 'DELETE':
         team.delete()
         return Response(status = status.HTTP_200_OK) 
+     return Response(status=status.HTTP_400_BAD_REQUEST)  
 
 @api_view(['DELETE'])
 def leave_team(request,teamid,userid):
@@ -252,3 +258,4 @@ def leave_team(request,teamid,userid):
             team.students.remove(user)
             return Response(status = status.HTTP_200_OK) 
         return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_400_BAD_REQUEST)    
