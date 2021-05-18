@@ -294,8 +294,21 @@ def put_assignment_detail(request,assignment_id):
 @api_view(['POST'])
 def create_assignment(request):
    if request.method == 'POST':
-        serialized_assignment = Assignment_Serializer(data=request.data)
+        serialized_assignment = Assignment_Serializer(data=request.data,partial =True)
         if serialized_assignment.is_valid():
             serialized_assignment.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serialized_assignment.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+@api_view(['GET'])
+def submission_list(request,assignment_id):
+    try:
+        assignment = Assignment.objects.get(pk = assignment_id)
+    except Assignment.DoesNotExist:
+        return Response(status= status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        assignment_submissions = assignment.assignmentsubmission_set.all()
+        serializedData =  Ass_Submission_Serializer(assignment_submissions, many=True)
+        return Response(serializedData.data) 
+    return Response(status = status.HTTP_400_BAD_REQUEST)

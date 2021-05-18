@@ -22,9 +22,9 @@ urlpatterns = [
     path('delete-team/<teamid>', views.delete_team, name = 'delete team'),
     path('leave-team/<teamid>/<userid>',views.leave_team, name = 'leave team'),
     path('post-chat/', views.post_chat, name = 'add new message in chat'),
-    path('delete-submission/<sid>', views.delete_submission, name = 'delete a submission'),
+    #path('delete-submission/<sid>', views.delete_submission, name = 'delete a submission'),
     path('add-member/<teamid>/<user_email>',views.add_member, name = 'add member to a team'),
     path('edit/assignment-detail/<assignment_id>',views.put_assignment_detail,name = 'put request to modify assignment detail'),
     path('create_assignment',views.create_assignment,name='create more assignment'),
-    #path('submissions')
+    path('submissions-list/<assignment_id>',views.submission_list, name= 'get submission list of a assignment'),
 ]

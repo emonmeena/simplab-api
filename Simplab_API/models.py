@@ -48,6 +48,7 @@ class Assignment(models.Model):
 
 class AssignmentSubmission(models.Model):
     student_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete= models.CASCADE)
     student_name = models.CharField(max_length=25)
     student_email = models.EmailField()
     exp_observations_image = models.ImageField(
