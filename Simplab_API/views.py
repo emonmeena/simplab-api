@@ -312,3 +312,21 @@ def submission_list(request,assignment_id):
         serializedData =  Ass_Submission_Serializer(assignment_submissions, many=True)
         return Response(serializedData.data) 
     return Response(status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def leave_member(request,teamid,user_name):
+    try:
+        team = Team.objects.get(pk=teamid)
+        try:
+            user = User.objects.get(username=user_name)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)  
+    except Team.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'DELETE':
+        if user in team.students.all():
+            team.students.remove(user)
+            return Response(status = status.HTTP_200_OK) 
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
