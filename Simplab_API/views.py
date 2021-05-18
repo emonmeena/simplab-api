@@ -239,17 +239,63 @@ def delete_team(request,teamid):
 
     if request.method == 'DELETE':
         team.delete()
-        return Response(status = status.HTTP_200_OK)
-    return Response(status=status.HTTP_400_BAD_REQUEST)    
+        return Response(status = status.HTTP_200_OK) 
+    return Response(status=status.HTTP_400_BAD_REQUEST)  
 
 @api_view(['DELETE'])
-def delete_submission(request,sid):
+def leave_team(request,teamid,userid):
     try:
-        s = AssignmentSubmission.objects.get(pk=sid)
-    except AssignmentSubmission.DoesNotExist:
+        team = Team.objects.get(pk=teamid)
+        try:
+            user = User.objects.get(pk=userid)
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)  
+    except Team.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'DELETE':
-        s.delete()
-        return Response(status = status.HTTP_200_OK)
+        if user in team.students.all():
+            team.students.remove(user)
+            return Response(status = status.HTTP_200_OK) 
+        return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_400_BAD_REQUEST)    
+
+@api_view(['PUT'])
+def add_member(request,teamid,user_email):
+    try:
+        team = Team.objects.get(pk=teamid)
+        try:
+            user = User_Detail.objects.get(email=user_email)
+        except User_Detail.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)  
+    except Team.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND) 
+
+    if request.method =='PUT':
+        student = User.objects.get(pk = user.pk)
+        team.students.add(student)
+        return Response(status = status.HTTP_200_OK) 
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def put_assignment_detail(request,assignment_id):
+    try:
+        assignment = Assignment.objects.get(pk=assignment_id)
+    except Assignment.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)  
+
+    if request.method == 'PUT':
+        serialized_assignment = Assignment_Serializer(assignment, data=request.data, partial = True)
+        if serialized_assignment.is_valid():
+            serialized_assignment.save()
+            return Response(serialized_assignment.data)
+        return Response(serialized_assignment.errors,status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+def create_assignment(request):
+   if request.method == 'POST':
+        serialized_assignment = Assignment_Serializer(data=request.data)
+        if serialized_assignment.is_valid():
+            serialized_assignment.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serialized_assignment.errors, status=status.HTTP_400_BAD_REQUEST) 
