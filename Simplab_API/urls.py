@@ -27,4 +27,5 @@ urlpatterns = [
     path('edit/assignment-detail/<assignment_id>',views.put_assignment_detail,name = 'put request to modify assignment detail'),
     path('create_assignment',views.create_assignment,name='create more assignment'),
     path('submissions-list/<assignment_id>',views.submission_list, name= 'get submission list of a assignment'),
+    path('leave-member/<teamid>/<user_name>',views.leave_member, name = 'leave member'),
 ]
