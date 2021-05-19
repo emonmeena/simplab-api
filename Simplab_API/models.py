@@ -49,14 +49,14 @@ class Assignment(models.Model):
 class AssignmentSubmission(models.Model):
     student_id = models.ForeignKey(User, on_delete=models.CASCADE)
     assignment = models.ForeignKey(Assignment, on_delete= models.CASCADE)
-    student_name = models.CharField(max_length=25)
-    student_email = models.EmailField()
+    student_name = models.CharField(max_length=25, blank=True)
+    student_email = models.EmailField(blank=True)
     exp_observations_image = models.ImageField(
-        upload_to="assignment_submissions/images/observations"
+        upload_to="assignment_submissions/images/observations", blank=True
     )
     exp_result = models.TextField()
-    submission_date = models.DateField()
-    submission_time = models.TimeField()
+    submission_date = models.DateField(auto_now_add=True, blank=True)
+    submission_time = models.TimeField(auto_now_add=True,blank=True)
     submission_file = models.FileField(upload_to="submission_files", blank=True)
 
     def __str__(self):
