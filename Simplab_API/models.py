@@ -65,6 +65,9 @@ class Chat(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(default=timezone.now, blank=True)
+    sent_time = models.TimeField(default=timezone.now, blank=-True)
+    sender_name = models.CharField(max_length=50, blank=True)
+    sender_profile = models.CharField(max_length=500, blank=True)
     message = models.TextField(blank=True)
     is_file = models.BooleanField(default=False, blank=True)
     chat_file = models.FileField(upload_to="chat_files", blank=True)
@@ -74,7 +77,7 @@ class User_Detail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     username = models.CharField(max_length=25, blank=True)
     email = models.EmailField(blank=True)
-    profile_image = models.ImageField(upload_to="profile_images", blank=True)
+    profile_image = models.ImageField(upload_to="profile_images", blank=True, default='/media/profile_images/default.jpg')
     organization = models.CharField(max_length=15, default="not selected", blank=True)
     contact = models.CharField(max_length=15, default="+911234567890", blank=True)
     # alerts
