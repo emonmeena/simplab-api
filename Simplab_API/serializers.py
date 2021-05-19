@@ -36,6 +36,11 @@ class Chat_Serializer(serializers.ModelSerializer):
         model = Chat
         fields='__all__'
 
+class Chat_File_Serializer(serializers.ModelSerializer):
+    class Meta:
+        model = Chat
+        fields=['chat_file']
+
 class User_Detail_Serializer(serializers.ModelSerializer):
     class Meta:
         model = User_Detail
