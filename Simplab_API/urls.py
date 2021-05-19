@@ -25,8 +25,9 @@ urlpatterns = [
     #path('delete-submission/<sid>', views.delete_submission, name = 'delete a submission'),
     path('add-member/<teamid>/<user_email>',views.add_member, name = 'add member to a team'),
     path('edit/assignment-detail/<assignment_id>',views.put_assignment_detail,name = 'put request to modify assignment detail'),
-    path('create_assignment',views.create_assignment,name='create more assignment'),
+    path('create_assignment/',views.create_assignment,name='create more assignment'),
     path('submissions-list/<assignment_id>',views.submission_list, name= 'get submission list of a assignment'),
+    path('submit-assignment/<assignment_id>',views.post_submission, name= 'post assignment submission'),
     path('leave-member/<teamid>/<user_name>',views.leave_member, name = 'leave member'),
     path('files/<teamid>',views.get_chat_files, name = 'get chat files'),
 ]
