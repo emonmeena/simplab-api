@@ -30,4 +30,5 @@ urlpatterns = [
     path('leave-member/<teamid>/<user_name>',views.leave_member, name = 'leave member'),
     path('get-assignment-detail/<assignment_id>',views.get_assignment_detail,name = 'get details of a assignment'),
     path('files/<teamid>',views.get_chat_files, name = 'get chat files'),
+    path('post-assignment-submission/',views.post_assignment_submission, name = 'post assignment submission'),
 ]
