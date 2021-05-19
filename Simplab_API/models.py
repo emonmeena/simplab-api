@@ -55,6 +55,8 @@ class AssignmentSubmission(models.Model):
         upload_to="assignment_submissions/images/observations"
     )
     exp_result = models.TextField()
+    submission_date = models.DateField()
+    submission_time = models.TimeField()
     submission_file = models.FileField(upload_to="submission_files", blank=True)
 
     def __str__(self):
