@@ -328,8 +328,8 @@ def put_assignment_detail(request, assignment_id):
 
 @api_view(["POST"])
 def create_assignment(request):
-    if request.method == "POST":
-        serialized_assignment = Assignment_Serializer(data=request.data, partial=True)
+   if request.method == 'POST':
+        serialized_assignment = Assignment_Serializer(data=request.data)
         if serialized_assignment.is_valid():
             serialized_assignment.save()
             return Response(status=status.HTTP_201_CREATED)
@@ -376,4 +376,16 @@ def leave_member(request, teamid, user_name):
             team.students.remove(user)
             return Response(status=status.HTTP_200_OK)
         return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_assignment_detail(request,assignment_id):
+    try:
+        assignment = Assignment.objects.get(pk = assignment_id)
+    except Assignment.DoesNotExist:
+        return Response(status= status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializedData =  Assignment_Serializer(assignment)
+        return Response(serializedData.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
