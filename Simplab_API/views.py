@@ -312,7 +312,7 @@ def getchat(request, teamid):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        chats = team.chat_set.all()
+        chats = team.chat_set.all().order_by('-date', '-sent_time')
         serializedData = Chat_Serializer(chats, many=True)
         return Response(serializedData.data)
 
