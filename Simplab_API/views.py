@@ -91,15 +91,15 @@ def post_user(request):
         serialized_user = User_Serializer(data=request.data)
         if serialized_user.is_valid():
             serialized_user.save()
-            serialized_user_detail = User_Detail_Serializer(
-                data={
-                    "user": serialized_user.data["id"],
-                    "username": serialized_user.data["username"],
-                    "email": serialized_user.data["email"],
-                }
-            )
-            if serialized_user_detail.is_valid():
-                serialized_user_detail.save()
+            # serialized_user_detail = User_Detail_Serializer(
+            #     data={
+            #         "user": request.data["id"],
+            #         "username": request.data["username"],
+            #         "email": request.data['email'],
+            #     }
+            # )
+            # if serialized_user_detail.is_valid():
+            #     serialized_user_detail.save()
             return Response(serialized_user.data["id"])
         return Response(serialized_user.errors, status=status.HTTP_400_BAD_REQUEST)
 
