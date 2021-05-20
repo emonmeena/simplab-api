@@ -91,15 +91,15 @@ def post_user(request):
         serialized_user = User_Serializer(data=request.data)
         if serialized_user.is_valid():
             serialized_user.save()
-            # serialized_user_detail = User_Detail_Serializer(
-            #     data={
-            #         "user": request.data["id"],
-            #         "username": request.data["username"],
-            #         "email": request.data['email'],
-            #     }
-            # )
-            # if serialized_user_detail.is_valid():
-            #     serialized_user_detail.save()
+            serialized_user_detail = User_Detail_Serializer(
+                data={
+                    "user": request.data["id"],
+                    "username": request.data["username"],
+                    "email": request.data["email"],
+                }
+            )
+            if serialized_user_detail.is_valid():
+                serialized_user_detail.save()
             return Response(serialized_user.data["id"])
         return Response(serialized_user.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -300,7 +300,7 @@ def get_all_assignments(request, user_id):
         for x in admin_teams:
             s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
             for a in s.data:
-                all_assignments.append(a)        
+                all_assignments.append(a)
         return Response(all_assignments)
 
 
@@ -323,7 +323,7 @@ def post_chat(request):
         serialized_chat = Chat_Serializer(data=request.data)
         if serialized_chat.is_valid():
             serialized_chat.save()
-            return Response(status=status.HTTP_201_CREATED)
+            return Response(serialized_chat.data["chat_file"])
         return Response(serialized_chat.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -398,7 +398,7 @@ def put_assignment_detail(request, assignment_id):
 
 @api_view(["POST"])
 def create_assignment(request):
-   if request.method == "POST":
+    if request.method == "POST":
         serialized_assignment = Assignment_Serializer(data=request.data)
         if serialized_assignment.is_valid():
             serialized_assignment.save()
@@ -462,17 +462,19 @@ def leave_member(request, teamid, user_name):
         return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(["GET"])
-def get_assignment_detail(request,assignment_id):
+def get_assignment_detail(request, assignment_id):
     try:
-        assignment = Assignment.objects.get(pk = assignment_id)
+        assignment = Assignment.objects.get(pk=assignment_id)
     except Assignment.DoesNotExist:
-        return Response(status= status.HTTP_404_NOT_FOUND)
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        serializedData =  Assignment_Serializer(assignment)
+        serializedData = Assignment_Serializer(assignment)
         return Response(serializedData.data)
     return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(["POST"])
 def post_assignment_submission(request):
@@ -483,5 +485,5 @@ def post_assignment_submission(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(
             serialized_assignment_submission.errors, status=status.HTTP_400_BAD_REQUEST
-        ) 
+        )
     return Response(status=status.HTTP_400_BAD_REQUEST)
