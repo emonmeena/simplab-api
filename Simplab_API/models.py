@@ -79,7 +79,7 @@ class User_Detail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     username = models.CharField(max_length=25, blank=True)
     email = models.EmailField(blank=True)
-    profile_image = models.ImageField(upload_to="profile_images", blank=True, default='/media/profile_images/default.jpg')
+    profile_image = models.ImageField(upload_to="profile_images", blank=True, default='/media/profile_images/default_TG1k14D.jpg')
     organization = models.CharField(max_length=15, default="not selected", blank=True)
     contact = models.CharField(max_length=15, default="+911234567890", blank=True)
     # alerts
