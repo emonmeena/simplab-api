@@ -260,7 +260,7 @@ def get_all_team_assignments(request, team_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        assignments = team.all_team_experiments.all()
+        assignments = team.all_team_experiments.all().order_by("due_date", "due_time")
         serializedData = Assignment_Serializer(assignments, many=True)
         return Response(serializedData.data)
 
@@ -294,11 +294,15 @@ def get_all_assignments(request, user_id):
         admin_teams = user.team_set.all()
         all_assignments = []
         for x in member_teams:
-            s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
+            s = Assignment_Serializer(
+                x.all_team_experiments.all().order_by("due_date", "due_time"), many=True
+            )
             for a in s.data:
                 all_assignments.append(a)
         for x in admin_teams:
-            s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
+            s = Assignment_Serializer(
+                x.all_team_experiments.all().order_by("due_date", "due_time"), many=True
+            )
             for a in s.data:
                 all_assignments.append(a)
         return Response(all_assignments)
@@ -312,7 +316,7 @@ def getchat(request, teamid):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        chats = team.chat_set.all().order_by('date', 'sent_time')
+        chats = team.chat_set.all().order_by("date", "sent_time")
         serializedData = Chat_Serializer(chats, many=True)
         return Response(serializedData.data)
 
