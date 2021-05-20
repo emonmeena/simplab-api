@@ -290,12 +290,17 @@ def get_all_assignments(request, user_id):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == "GET":
-        teams = user.all_member_teams.all()
+        member_teams = user.all_member_teams.all()
+        admin_teams = user.team_set.all()
         all_assignments = []
-        for x in teams:
+        for x in member_teams:
             s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
             for a in s.data:
                 all_assignments.append(a)
+        for x in admin_teams:
+            s = Assignment_Serializer(x.all_team_experiments.all(), many=True)
+            for a in s.data:
+                all_assignments.append(a)        
         return Response(all_assignments)
 
 

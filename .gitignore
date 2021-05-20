@@ -46,3 +46,4 @@ ENV/
 # vscode
 .vscode/
 *.pdf
+media/

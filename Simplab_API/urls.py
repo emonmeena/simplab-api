@@ -36,5 +36,3 @@ urlpatterns = [
     path('files/<teamid>',views.get_chat_files, name = 'get chat files'),
     path('post-assignment-submission/',views.post_assignment_submission, name = 'post assignment submission'),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=os.path.join(settings.MEDIA_ROOT,'accounts'))
