@@ -39,7 +39,7 @@ class Chat_Serializer(serializers.ModelSerializer):
 class Chat_File_Serializer(serializers.ModelSerializer):
     class Meta:
         model = Chat
-        fields=['chat_file', 'date', 'sender', 'id']
+        fields=['chat_file', 'date', 'sender_name', 'id']
 
 class User_Detail_Serializer(serializers.ModelSerializer):
     class Meta:
