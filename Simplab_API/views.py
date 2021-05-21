@@ -455,7 +455,6 @@ def post_submission(request):
                     student_email,
                     sub_id,
                 )
-                sub.student_name = "Mayank meena"
                 sub.save()
             except AssignmentSubmission.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
