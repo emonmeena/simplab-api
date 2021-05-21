@@ -33,11 +33,11 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
         bottomMargin=18,
     )
     Story = []
-    logo =""
+    logo = ""
     try:
         logo = os.path.join(
             settings.BASE_DIR,
-            exp_image[0:],
+            "media/submission_files/default.jpg",
         )
         print(logo)
     except:
@@ -53,27 +53,36 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     full_name = "Mike Driscoll"
     address_parts = ["411 State St.", "Marshalltown, IA 50158"]
     im = Image(logo, 2 * inch, 2 * inch)
-    Story.append(im)
+    # Story.append(im)
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="Justify", alignment=TA_JUSTIFY))
-    ptext = '<font size="12">%s</font>' % formatted_time
-    Story.append(Paragraph(ptext, styles["Normal"]))
-    Story.append(Spacer(1, 12))
+    # ptext = '<font size="12">%s</font>' % formatted_time
+    # Story.append(Paragraph(ptext, styles["Normal"]))
     # Create return address
-    ptext = '<font size="12">%s</font>' % full_name
-    Story.append(Paragraph(ptext, styles["Normal"]))
-    for part in address_parts:
-        ptext = '<font size="12">%s</font>' % part.strip()
-        Story.append(Paragraph(ptext, styles["Normal"]))
     Story.append(Spacer(1, 12))
-    ptext = '<font size="12">Dear %s:</font>' % full_name.split()[0].strip()
+
+    ptext = '<font size="12">%s</font>' % st_name
     Story.append(Paragraph(ptext, styles["Normal"]))
     Story.append(Spacer(1, 12))
-    ptext = (
-        '<font size="12">We would like to welcome you to our subscriber base for %s Magazine! \
+    ptext = '<font size="12">%s</font>' % st_email
+    Story.append(Paragraph(ptext, styles["Normal"]))
+    # for part in address_parts:
+    #     ptext = '<font size="12">%s</font>' % part.strip()
+    #     Story.append(Paragraph(ptext, styles["Normal"]))
+    Story.append(Spacer(1, 12))
+    ptext = '<font size="12">%s</font>' % exp_res
+    Story.append(Paragraph(ptext, styles["Normal"]))
+
+    aim = "To verify Faraday's Law which states  that the emf E — the integral of the electric field around a closed path — is equal to the change in magnetic flux Φ through the path."
+    prec = "1. Disconnect and set aside the power supply, the multimeter, and the stand with the Magnetic Field Sensor. Start with a new Data Studio display, being sure to save the data you might need for the additional credit.2. Wire the signal generator output of the Science Workshop interface to one of the coils, including the 1.2-kΩ resistor in series. We will call this the “field coil”. Since the resistance of the coil itself is negligible compared to the 1.2 kΩ of the resistor, the voltage of the signal generator divided by 1.2 kΩ gives the current through the field coil.3. Wire a voltage sensor (just an analog plug with two leads) to the 2000-turn search coil, and set it up in Data Studio. The search coils have 10-kΩ resistors in parallel to damp out oscillations. On the computer screen, double-click “Signal Output” to get the output voltage into the data column and bring up the signal generator control window. Set up a scope display with two traces to measure both the voltage output of the signal generator and the output of the voltage sensor. Select the signal generator voltage so the scope triggers on this signal.4. Set the signal generator to a 5-V triangle wave at 2000 Hz, turn it on, click “Start”, and make any adjustments to the scope so that you see a clear, stable triangle wave on the scope. Check the trigger setting if the wave on the scope is not stable. Adjust the trace speed by clicking the arrows on the x-axis of the scope, and the amplitude of the trace by clicking the appropriate arrows on the y-axis. Now when you bring up the search coil inside the field coil and in the same plane, and adjust the voltage sensor signal on the scope to greater sensitivity, you should see a square wave trace, possibly with some fluctuations. Notice that when you click “Stop”, the last scope trace remains fixed in the scope window, facilitating some of the measurements below.5. Faraday's Law (Eq. (18)) states that E=−(d/dt)(B⋅NA), where E is the emf induced in the search coil (which you are measuring with the voltage sensor). B is the magnetic field of the field coil, which is proportional to the current flowing through it; this current, in turn, is proportional to the triangle wave voltage from the signal generator. A is the area vector of the search coil, and N is the number of turns of the search coil. The cosine of the dot product between B and A is 1.0 if the search coil is in the same plane as the field coil."
+    ptext = '<font size="12">We would like to welcome you to our subscriber base for %s Magazine! \
             You will receive %s issues at the excellent introductory price of $%s. Please respond by\
-            %s to start receiving your subscription and get the following free gift: %s.</font>'
-        % (magName, issueNum, subPrice, limitedDate, freeGift)
+            %s to start receiving your subscription and get the following free gift: %s.</font>' % (
+        "Faraday's Law",
+        aim,
+        prec,
+        "Since this is a virtual experiment, no precautions needed",
+        exp_res,
     )
     Story.append(Paragraph(ptext, styles["Justify"]))
     Story.append(Spacer(1, 12))
