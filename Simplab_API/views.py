@@ -18,14 +18,14 @@ from django.conf import settings
 
 def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     final_sub_path = (
-        "/submission_files/"
+        "./media/submission_files/"
         + st_name
         + "_"
         + st_email
         + "_Assignment-{}.pdf".format(sub_id)
     )
     doc = SimpleDocTemplate(
-        "./media" + final_sub_path,
+        final_sub_path,
         pagesize=letter,
         rightMargin=72,
         leftMargin=72,
@@ -37,12 +37,10 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     try:
         logo = os.path.join(
             settings.BASE_DIR,
-            "media/submission_files/default.jpg",
+            exp_image[0:],
         )
-        print(logo)
     except:
         logo = "p.png"
-        print(logo)
 
     magName = "Pythonista"
     issueNum = 12
@@ -53,7 +51,7 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     full_name = "Mike Driscoll"
     address_parts = ["411 State St.", "Marshalltown, IA 50158"]
     im = Image(logo, 2 * inch, 2 * inch)
-    # Story.append(im)
+    Story.append(im)
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="Justify", alignment=TA_JUSTIFY))
     # ptext = '<font size="12">%s</font>' % formatted_time
@@ -102,7 +100,6 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     Story.append(Paragraph(ptext, styles["Normal"]))
 
     doc.build(Story)
-    return final_sub_path
 
 
 @api_view(["GET"])
@@ -460,14 +457,22 @@ def post_submission(request):
                 student_email = serialized_submission.data["student_email"]
                 sub_id = serialized_submission.data["id"]
                 sub = AssignmentSubmission.objects.get(id=sub_id)
-                sub.submission_file = PDFgenerator(
+                PDFgenerator(
                     exp_observations_image,
                     exp_result,
                     student_name,
                     student_email,
                     sub_id,
                 )
+                sub.submission_file = (
+                    "/submission_files/"
+                    + student_name
+                    + "_"
+                    + student_email
+                    + "_Assignment-{}.pdf".format(sub_id)
+                )
                 sub.save()
+                print(sub.submission_file, "THis is sub")
             except AssignmentSubmission.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
             return Response(status=status.HTTP_201_CREATED)
