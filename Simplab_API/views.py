@@ -444,7 +444,8 @@ def post_submission(request):
                 sub_id = serialized_submission.data["id"]
                 sub = AssignmentSubmission.objects.get(id=sub_id)
                 ass = Assignment.objects.get(pk=ass_id)
-                exp_num = ass.exp
+                exp_num = ass.exp.id
+                print(exp_num)
                 exp = Experiment.objects.get(pk=exp_num)
                 PDFgenerator(
                     exp_num,
