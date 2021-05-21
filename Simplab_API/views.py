@@ -93,7 +93,7 @@ def post_user(request):
             serialized_user.save()
             serialized_user_detail = User_Detail_Serializer(
                 data={
-                    "user": request.data["id"],
+                    "user": serialized_user.data["id"],
                     "username": request.data["username"],
                     "email": request.data["email"],
                 }
