@@ -20,8 +20,6 @@ def PDFgenerator(exp_obs, exp_res, st_name, st_email, sub_id):
     final_sub_path = (
         "./media/submission_files/"
         + st_name
-        + "_"
-        + st_email
         + "_Assignment-{}.pdf".format(sub_id)
     )
     doc = SimpleDocTemplate(
@@ -465,8 +463,6 @@ def post_submission(request):
                 sub.submission_file = (
                     "/submission_files/"
                     + student_name
-                    + "_"
-                    + student_email
                     + "_Assignment-{}.pdf".format(sub_id)
                 )
                 sub.save()
