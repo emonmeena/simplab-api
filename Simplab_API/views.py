@@ -15,11 +15,18 @@ from reportlab.lib.units import inch
 import os
 from django.conf import settings
 
+
 def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     print(exp_res, st_name, st_email)
-    final_sub_path = "/submission_files/"+st_name+'_'+st_email+"_Assignment-{}.pdf".format(sub_id)
+    final_sub_path = (
+        "/submission_files/"
+        + st_name
+        + "_"
+        + st_email
+        + "_Assignment-{}.pdf".format(sub_id)
+    )
     doc = SimpleDocTemplate(
-        "./media"+final_sub_path,
+        "./media" + final_sub_path,
         pagesize=letter,
         rightMargin=72,
         leftMargin=72,
@@ -28,11 +35,14 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     )
     Story = []
     try:
-        logo = os.path.join(settings.BASE_DIR, 'media/assignment_submissions/images/observations/profile.jpg')
+        logo = os.path.join(
+            settings.BASE_DIR,
+            "media/assignment_submissions/images/observations/profile.jpg",
+        )
         print(logo)
     except logo.DoesNotExist:
-        print('logo does not exist')
-        logo = 'p.png'
+        print("logo does not exist")
+        logo = "p.png"
     magName = "Pythonista"
     issueNum = 12
     subPrice = "99.00"
@@ -432,13 +442,22 @@ def post_submission(request):
         if serialized_submission.is_valid():
             serialized_submission.save()
             try:
-                exp_observations_image = serialized_submission.data['exp_observations_image']
-                exp_result = serialized_submission.data['exp_result']
-                student_name = serialized_submission.data['student_name']
-                student_email = serialized_submission.data['student_email']
-                sub_id = serialized_submission.data['id']
+                exp_observations_image = serialized_submission.data[
+                    "exp_observations_image"
+                ]
+                exp_result = serialized_submission.data["exp_result"]
+                student_name = serialized_submission.data["student_name"]
+                student_email = serialized_submission.data["student_email"]
+                sub_id = serialized_submission.data["id"]
                 sub = AssignmentSubmission.objects.get(id=sub_id)
-                sub.submission_file =  PDFgenerator(exp_observations_image, exp_result, student_name, student_email, sub_id)
+                sub.submission_file = PDFgenerator(
+                    exp_observations_image,
+                    exp_result,
+                    student_name,
+                    student_email,
+                    sub_id,
+                )
+                sub.student_name = "Mayank meena"
                 sub.save()
             except AssignmentSubmission.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
