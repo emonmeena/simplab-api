@@ -37,7 +37,7 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     try:
         logo = os.path.join(
             settings.BASE_DIR,
-            "media/assignment_submissions/images/observations/profile.jpg",
+            exp_image,
         )
         print(logo)
     except logo.DoesNotExist:
