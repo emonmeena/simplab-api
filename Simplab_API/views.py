@@ -17,7 +17,7 @@ from django.conf import settings
 
 def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     print(exp_res, st_name, st_email)
-    final_sub_path = "/submission_files/"+st_name+st_email+"{}.pdf".format(sub_id)
+    final_sub_path = "/submission_files/"+st_name+'_'+st_email+"_Assignment-{}.pdf".format(sub_id)
     doc = SimpleDocTemplate(
         "./media"+final_sub_path,
         pagesize=letter,
