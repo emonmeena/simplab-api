@@ -34,13 +34,17 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
         bottomMargin=18,
     )
     Story = []
+    logo =""
     try:
         logo = os.path.join(
             settings.BASE_DIR,
             exp_image[0:],
         )
-    except logo.DoesNotExist:
+        print(logo)
+    except:
         logo = "p.png"
+        print(logo)
+
     magName = "Pythonista"
     issueNum = 12
     subPrice = "99.00"
