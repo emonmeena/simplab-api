@@ -17,7 +17,6 @@ from django.conf import settings
 
 
 def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
-    print(exp_res, st_name, st_email)
     final_sub_path = (
         "/submission_files/"
         + st_name
