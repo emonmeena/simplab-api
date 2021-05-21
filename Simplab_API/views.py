@@ -37,11 +37,9 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     try:
         logo = os.path.join(
             settings.BASE_DIR,
-            exp_image,
+            exp_image[0:],
         )
-        print(logo)
     except logo.DoesNotExist:
-        print("logo does not exist")
         logo = "p.png"
     magName = "Pythonista"
     issueNum = 12
