@@ -65,12 +65,15 @@ def PDFgenerator(
     Story.append(Paragraph(ptext, styles["Normal"]))
     Story.append(Spacer(1, 12))
 
-    for x in exp_procedure:
-        ptext = '<font size="12">%s</font>' % x
-        Story.append(Paragraph(ptext, styles["Normal"]))
-        Story.append(Spacer(1, 12))
+    # for x in exp_procedure:
+    #     ptext = '<font size="12">%s</font>' % x
+    #     Story.append(Paragraph(ptext, styles["Normal"]))
+    #     Story.append(Spacer(1, 12))
 
-    Story.append(Spacer(1, 12))
+    ptext = '<font size="12">%s</font>' % exp_procedure
+    Story.append(Paragraph(ptext, styles["Normal"]))
+    Story.append(Spacer(1, 12))    
+
     ptext = '<font size="16">Observation</font>'
     Story.append(Paragraph(ptext, styles["Normal"]))
     Story.append(Spacer(1, 12))
