@@ -16,7 +16,7 @@ import os
 from django.conf import settings
 
 
-def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
+def PDFgenerator(exp_obs, exp_res, st_name, st_email, sub_id):
     final_sub_path = (
         "./media/submission_files/"
         + st_name
@@ -34,13 +34,13 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     )
     Story = []
     logo = ""
-    try:
-        logo = os.path.join(
-            settings.BASE_DIR,
-            exp_image[0:],
-        )
-    except:
-        logo = "p.png"
+    # try:
+    #     logo = os.path.join(
+    #         settings.BASE_DIR,
+    #         exp_image[0:],
+    #     )
+    # except:
+    #     logo = "p.png"
 
     magName = "Pythonista"
     issueNum = 12
@@ -50,8 +50,8 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     formatted_time = time.ctime()
     full_name = "Mike Driscoll"
     address_parts = ["411 State St.", "Marshalltown, IA 50158"]
-    im = Image(logo, 2 * inch, 2 * inch)
-    Story.append(im)
+    # im = Image(logo, 2 * inch, 2 * inch)
+    # Story.append(im)
     styles = getSampleStyleSheet()
     styles.add(ParagraphStyle(name="Justify", alignment=TA_JUSTIFY))
     # ptext = '<font size="12">%s</font>' % formatted_time
@@ -449,16 +449,14 @@ def post_submission(request):
         if serialized_submission.is_valid():
             serialized_submission.save()
             try:
-                exp_observations_image = serialized_submission.data[
-                    "exp_observations_image"
-                ]
+                exp_obs= serialized_submission.data["exp_obs"]
                 exp_result = serialized_submission.data["exp_result"]
                 student_name = serialized_submission.data["student_name"]
                 student_email = serialized_submission.data["student_email"]
                 sub_id = serialized_submission.data["id"]
                 sub = AssignmentSubmission.objects.get(id=sub_id)
                 PDFgenerator(
-                    exp_observations_image,
+                    exp_obs,
                     exp_result,
                     student_name,
                     student_email,
@@ -533,17 +531,4 @@ def get_assignment_detail(request, assignment_id):
     if request.method == "GET":
         serializedData = Assignment_Serializer(assignment)
         return Response(serializedData.data)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(["POST"])
-def post_assignment_submission(request):
-    if request.method == "POST":
-        serialized_assignment_submission = Ass_Submission_Serializer(data=request.data)
-        if serialized_assignment_submission.is_valid():
-            serialized_assignment_submission.save()
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(
-            serialized_assignment_submission.errors, status=status.HTTP_400_BAD_REQUEST
-        )
     return Response(status=status.HTTP_400_BAD_REQUEST)

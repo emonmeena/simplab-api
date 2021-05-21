@@ -15,9 +15,7 @@ class User(models.Model):
 class Team(models.Model):
     admin = models.ForeignKey(User, on_delete=models.CASCADE)
     team_name = models.CharField(max_length=100)
-    students = models.ManyToManyField(
-        User, related_name="all_member_teams", blank=True
-    )
+    students = models.ManyToManyField(User, related_name="all_member_teams", blank=True)
 
     def __str__(self):
         return self.team_name
@@ -47,21 +45,20 @@ class Assignment(models.Model):
     def __str__(self):
         return self.title
 
+
 class AssignmentSubmission(models.Model):
     student_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    assignment = models.ForeignKey(Assignment, on_delete= models.CASCADE)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
     student_name = models.CharField(max_length=25, blank=True)
     student_email = models.EmailField(blank=True)
-    exp_observations_image = models.ImageField(
-        upload_to="assignment_submissions/images/observations", blank=True
-    )
+    exp_obs = models.TextField(default="h")
     exp_result = models.TextField()
     submission_date = models.DateField(auto_now_add=True, blank=True)
-    submission_time = models.TimeField(auto_now_add=True,blank=True)
+    submission_time = models.TimeField(auto_now_add=True, blank=True)
     submission_file = models.FileField(upload_to="submission_files", blank=True)
 
     def __str__(self):
-        return self.student_name        
+        return self.student_name
 
 
 class Chat(models.Model):
