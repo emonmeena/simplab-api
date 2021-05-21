@@ -12,7 +12,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
-
+import os
+from django.conf import settings
 
 def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
     print(exp_res, st_name, st_email)
@@ -26,7 +27,12 @@ def PDFgenerator(exp_image, exp_res, st_name, st_email, sub_id):
         bottomMargin=18,
     )
     Story = []
-    logo = 'p.png'
+    try:
+        logo = os.path.join(settings.BASE_DIR, 'media/assignment_submissions/images/observations/profile.jpg')
+        print(logo)
+    except logo.DoesNotExist:
+        print('logo does not exist')
+        logo = 'p.png'
     magName = "Pythonista"
     issueNum = 12
     subPrice = "99.00"
@@ -421,7 +427,6 @@ def create_assignment(request):
 
 @api_view(["POST"])
 def post_submission(request):
-    print(request.data)
     if request.method == "POST":
         serialized_submission = Ass_Submission_Serializer(data=request.data)
         if serialized_submission.is_valid():
@@ -434,8 +439,6 @@ def post_submission(request):
                 sub_id = serialized_submission.data['id']
                 sub = AssignmentSubmission.objects.get(id=sub_id)
                 sub.submission_file =  PDFgenerator(exp_observations_image, exp_result, student_name, student_email, sub_id)
-                print(sub)
-                print(sub.submission_file)
                 sub.save()
             except AssignmentSubmission.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
